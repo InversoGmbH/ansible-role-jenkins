@@ -104,6 +104,7 @@ strategy.add(hudson.model.View.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_g
 strategy.add(hudson.model.View.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.View.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
+strategy.add(hudson.model.View.READ, PermissionEntry.group('authenticated'))
 strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
 // SCM - http://javadoc.jenkins-ci.org/hudson/model/View.html
