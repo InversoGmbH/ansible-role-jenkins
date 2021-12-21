@@ -67,9 +67,10 @@ strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_
 strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
-strategy.add(hudson.model.Item.MOVE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+{# TODO: Check if cloudbees folder plugin is installed #}
+{# strategy.add(hudson.model.Item.RELOCATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}')) // cloudbees folder plugin #}
 
 {# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_users }}')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
