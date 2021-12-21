@@ -33,31 +33,35 @@ strategy.add(Jenkins.READ, PermissionEntry.group('anonymous'))
 {% endif %}
 
 // Agent (Slave < 2.0) - http://javadoc.jenkins-ci.org/jenkins/model/Jenkins.MasterComputer.html
+{# inherited from global admin permissions
 strategy.add(Jenkins.MasterComputer.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(Jenkins.MasterComputer.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(Jenkins.MasterComputer.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(Jenkins.MasterComputer.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(Jenkins.MasterComputer.CONNECT, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(Jenkins.MasterComputer.DISCONNECT, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+#}
 
 strategy.add(Jenkins.MasterComputer.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(Jenkins.MasterComputer.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(Jenkins.MasterComputer.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(Jenkins.MasterComputer.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(Jenkins.MasterComputer.CONNECT, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+{# strategy.add(Jenkins.MasterComputer.CONNECT, PermissionEntry.group('{{ jenkins_ad_group_developers }}')) // inherited from DISCONNECT#}
 strategy.add(Jenkins.MasterComputer.DISCONNECT, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // Job - http://javadoc.jenkins-ci.org/hudson/model/Item.html
-strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.WORKSPACE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+{# --- ITEM Permissions are inherted from global admin permissions
+//strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.WORKSPACE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+//strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+#}
 
-strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+{# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_developers }}')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.WORKSPACE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
@@ -65,13 +69,13 @@ strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_grou
 strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
-strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
+{# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_users }}')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
-strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('authenticated'))
+{# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('authenticated')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('authenticated'))
 
-strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('anonymous'))
+{# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('anonymous')) // inherited from READ permission #}
 {% if jenkins_ad_allow_anonymous  == 'yes' %}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('anonymous'))
 {% endif %}
@@ -85,20 +89,22 @@ strategy.add(hudson.model.Run.DELETE, PermissionEntry.group('{{ jenkins_ad_group
 strategy.add(hudson.model.Run.UPDATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // View - http://javadoc.jenkins-ci.org/hudson/model/View.html
+{# inherited from global admin permisison
+strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(hudson.model.View.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(hudson.model.View.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 strategy.add(hudson.model.View.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
-strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+#}
 
+strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.View.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.View.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 strategy.add(hudson.model.View.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
-strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
 // SCM - http://javadoc.jenkins-ci.org/hudson/model/View.html
-strategy.add(hudson.scm.SCM.TAG, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+{# strategy.add(hudson.scm.SCM.TAG, PermissionEntry.group('{{ jenkins_ad_group_admin }}')) // inherited from global admin permissin #}
 strategy.add(hudson.scm.SCM.TAG, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // Plugin Manager http://javadoc.jenkins-ci.org/hudson/PluginManager.html
