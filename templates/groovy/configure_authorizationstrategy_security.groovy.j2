@@ -15,88 +15,97 @@ def strategy = new GlobalMatrixAuthorizationStrategy()
 
 // Roles based on https://wiki.jenkins-ci.org/display/JENKINS/Matrix-based+security
 // Overall - http://javadoc.jenkins-ci.org/jenkins/model/Jenkins.html
-strategy.add(Jenkins.ADMINISTER, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(Jenkins.MANAGE, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(Jenkins.SYSTEM_READ, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(Jenkins.RUN_SCRIPTS, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(Jenkins.READ, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(Jenkins.READ, 'authenticated')
+strategy.add(Jenkins.ADMINISTER, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
+strategy.add(Jenkins.MANAGE, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
+strategy.add(Jenkins.SYSTEM_READ, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
+strategy.add(Jenkins.RUN_SCRIPTS, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
+strategy.add(Jenkins.READ, PermissionEntry.group('authenticated'))
 
-strategy.add(Jenkins.ADMINISTER, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.READ, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.READ, '{{ jenkins_ad_group_developers }}')
-strategy.add(Jenkins.READ, '{{ jenkins_ad_group_users }}')
+strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(Jenkins.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
 
 {% if jenkins_ad_allow_anonymous  == 'yes' %}
-strategy.add(Jenkins.READ, 'anonymous')
+strategy.add(Jenkins.READ, PermissionEntry.group('anonymous'))
 {% endif %}
 
 // Agent (Slave < 2.0) - http://javadoc.jenkins-ci.org/jenkins/model/Jenkins.MasterComputer.html
-strategy.add(Jenkins.MasterComputer.BUILD, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.CONFIGURE, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.CONFIGURE, '{{ jenkins_ad_group_developers }}')
-strategy.add(Jenkins.MasterComputer.CONNECT, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.CONNECT, '{{ jenkins_ad_group_developers }}')
-strategy.add(Jenkins.MasterComputer.CREATE, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.CREATE, '{{ jenkins_ad_group_developers }}')
-strategy.add(Jenkins.MasterComputer.DELETE, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.DELETE, '{{ jenkins_ad_group_developers }}')
-strategy.add(Jenkins.MasterComputer.DISCONNECT, '{{ jenkins_ad_group_admin }}')
-strategy.add(Jenkins.MasterComputer.DISCONNECT, '{{ jenkins_ad_group_developers }}')
+strategy.add(Jenkins.MasterComputer.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.CONNECT, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.DISCONNECT, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
 
+strategy.add(Jenkins.MasterComputer.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(Jenkins.MasterComputer.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(Jenkins.MasterComputer.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(Jenkins.MasterComputer.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(Jenkins.MasterComputer.CONNECT, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(Jenkins.MasterComputer.DISCONNECT, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // Job - http://javadoc.jenkins-ci.org/hudson/model/Item.html
-strategy.add(hudson.model.Item.BUILD, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.BUILD, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.CANCEL, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.CANCEL, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.CONFIGURE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.CONFIGURE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.CREATE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.DELETE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.DELETE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.DISCOVER, 'anonymous')
-strategy.add(hudson.model.Item.DISCOVER, 'authenticated')
-strategy.add(hudson.model.Item.DISCOVER, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.DISCOVER, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.DISCOVER, '{{ jenkins_ad_group_users }}')
+strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.WORKSPACE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+
+strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.WORKSPACE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+
+strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
+strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
+
+strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('authenticated'))
+strategy.add(hudson.model.Item.READ, PermissionEntry.group('authenticated'))
+
+strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('anonymous'))
 {% if jenkins_ad_allow_anonymous  == 'yes' %}
-strategy.add(hudson.model.Item.READ, 'anonymous')
+strategy.add(hudson.model.Item.READ, PermissionEntry.group('anonymous'))
 {% endif %}
-strategy.add(hudson.model.Item.READ, 'authenticated')
-strategy.add(hudson.model.Item.READ, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.READ, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Item.READ, '{{ jenkins_ad_group_users }}')
-strategy.add(hudson.model.Item.WORKSPACE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Item.WORKSPACE, '{{ jenkins_ad_group_developers }}')
+
 
 // Run - http://javadoc.jenkins-ci.org/hudson/model/Run.html
-strategy.add(hudson.model.Run.DELETE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Run.DELETE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.Run.UPDATE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.Run.UPDATE, '{{ jenkins_ad_group_developers }}')
+strategy.add(hudson.model.Run.UPDATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.Run.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+
+strategy.add(hudson.model.Run.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.Run.UPDATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // View - http://javadoc.jenkins-ci.org/hudson/model/View.html
-strategy.add(hudson.model.View.CONFIGURE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.View.CONFIGURE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.View.CREATE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.View.CREATE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.View.DELETE, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.View.DELETE, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.View.READ, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.model.View.READ, '{{ jenkins_ad_group_developers }}')
-strategy.add(hudson.model.View.READ, '{{ jenkins_ad_group_users }}')
+strategy.add(hudson.model.View.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.View.CREATE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.View.DELETE, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+
+strategy.add(hudson.model.View.CONFIGURE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.View.CREATE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.View.DELETE, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
+
+strategy.add(hudson.model.View.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
 // SCM - http://javadoc.jenkins-ci.org/hudson/model/View.html
-strategy.add(hudson.scm.SCM.TAG, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.scm.SCM.TAG, '{{ jenkins_ad_group_developers }}')
+strategy.add(hudson.scm.SCM.TAG, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.scm.SCM.TAG, PermissionEntry.group('{{ jenkins_ad_group_developers }}'))
 
 // Plugin Manager http://javadoc.jenkins-ci.org/hudson/PluginManager.html
-strategy.add(hudson.PluginManager.UPLOAD_PLUGINS, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.PluginManager.CONFIGURE_UPDATECENTER, '{{ jenkins_ad_group_admin }}')
-strategy.add(hudson.PluginManager.UPLOAD_PLUGINS, '{{ jenkins_admin_username | default("jenkins-admin") }}')
-strategy.add(hudson.PluginManager.CONFIGURE_UPDATECENTER, '{{ jenkins_admin_username | default("jenkins-admin") }}')
+strategy.add(hudson.PluginManager.UPLOAD_PLUGINS, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+strategy.add(hudson.PluginManager.CONFIGURE_UPDATECENTER, PermissionEntry.group('{{ jenkins_ad_group_admin }}'))
+
+strategy.add(hudson.PluginManager.UPLOAD_PLUGINS, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
+strategy.add(hudson.PluginManager.CONFIGURE_UPDATECENTER, PermissionEntry.user('{{ jenkins_admin_username | default("jenkins-admin") }}'))
 
 instance.setAuthorizationStrategy(strategy)
 instance.save()
