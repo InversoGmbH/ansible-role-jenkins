@@ -18,10 +18,29 @@ def cache = new CacheConfiguration({{ jenkins_ad_cache_size }}, {{ jenkins_ad_ca
 def cache = null
 {% endif %}
 
+Boolean removeIrrelevantGroups = false
+Boolean customDomain = true
+Boolean startTls = true
+Boolean requireTls = {{ jenkins_ad_require_tls }}
+
 {#def domains = Lists.newArrayList(new ActiveDirectoryDomain(domain, server, site, bindName, bindPassword, TlsConfiguration.TRUST_ALL_CERTIFICATES))#}
 def domains = Lists.newArrayList(new ActiveDirectoryDomain(domain, server, site, bindName, bindPassword, TlsConfiguration.JDK_TRUSTSTORE))
 
 internalUsersDatabase = new ActiveDirectoryInternalUsersDatabase(localAdminUser)
-adrealm = new ActiveDirectorySecurityRealm(domain, domains, site, bindName, bindPassword, server, GroupLookupStrategy.AUTO, false, true, cache, true, internalUsersDatabase)
+adrealm = new ActiveDirectorySecurityRealm(
+  domain,
+  domains,
+  site,
+  bindName,
+  bindPassword,
+  server,
+  GroupLookupStrategy.AUTO,
+  removeIrrelevantGroups,
+  customDomain,
+  cache,
+  startTls,
+  internalUsersDatabase,
+  requireTls
+)
 
 instance.setSecurityRealm(adrealm)

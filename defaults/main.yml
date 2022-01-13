@@ -1,6 +1,6 @@
 ---
 
-jenkins_version                      : '2.235.3'
+jenkins_version                      : '2.319.2'
 jenkins_default_plugins              :
   - "active-directory"
 jenkins_plugins                      : '{{ jenkins_default_plugins }}'
@@ -38,6 +38,7 @@ jenkins_admin_password               : ''
 # if you install active directory plugin, login with local admin account gets impossible, so an active directory user is needed
 jenkins_ad_admin_username            : ''
 jenkins_ad_admin_password            : ''
+jenkins_ad_require_tls               : 'true'
 
 # deprecated
 jenkins_proxy_configure              : 'no'

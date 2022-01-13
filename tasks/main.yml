@@ -7,7 +7,6 @@
       - jenkins_user                     | mandatory
       - jenkins_group                    | mandatory
       - jenkins_home                     | mandatory
-      - jenkins_ad_configure             | mandatory
       - jenkins_dir                      | mandatory
       - jenkins_logdir                   | mandatory
       - jenkins_destination              | mandatory
@@ -19,11 +18,13 @@
       - jenkins_local_http_port          | mandatory
       - jenkins_update_plugins           in ['yes','no']
       - jenkins_proxy_configure          in ['yes','no']
+      - jenkins_ad_configure             | mandatory
       - jenkins_ad_configure             in ['yes','no']
       - jenkins_ad_allow_anonymous       in ['yes','no']
+      - jenkins_ad_require_tls           in ['true', 'false']
+      - jenkins_ad_authorizationstrategy in ['matrix','project']
       - jenkins_java_install_jce         in ['yes','no']
       - jenkins_service_enabled          in ['yes','no']
-      - jenkins_ad_authorizationstrategy in ['matrix','project']
       - jenkins_cli_remote_enabled       in ['false','true'] # these are intentionally strings, and not booleans
   tags: ['varcheck']
 
