@@ -146,11 +146,11 @@
     state: absent
 
 - name: generate jenkins crumb
-  include: api_generate_crumb.yml
+  import_tasks: api_generate_crumb.yml
   tags: ['jenkins.plugins']
 
 - name: generate jenkins admin api token
-  include: admin_api_token.yml
+  import_tasks: admin_api_token.yml
   tags: ['jenkins.plugins']
 
 - name: check for running builds
@@ -191,13 +191,13 @@
   until: _return_maintenance_mode is not failed
   tags: ['jenkins.plugins']
 
-- include: configure.yml 
+- import_tasks: configure.yml
   tags: jenkins.configure
   
-- include: plugins.yml 
+- import_tasks: plugins.yml
   tags: ['jenkins.plugins']
 
-- include: configure_plugins.yml
+- import_tasks: configure_plugins.yml
   tags: jenkins.configure_plugins
 
 - name: ensure jenkins is enabled or started
