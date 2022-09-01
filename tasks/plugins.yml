@@ -17,7 +17,7 @@
     state: started
 
 - name: generate jenkins crumb
-  include: api_generate_crumb.yml
+  import_tasks: api_generate_crumb.yml
 
 - name: check updates server
   uri:
