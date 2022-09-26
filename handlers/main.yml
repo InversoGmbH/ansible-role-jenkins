@@ -32,4 +32,4 @@
 - name: restart jenkins
   systemd:
     name: jenkins
-    state: '{{ jenkins_restarted_state | default(restarted) }}'
+    state: "{{ jenkins_restarted_state | default('restarted') }}"
