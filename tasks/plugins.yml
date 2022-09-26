@@ -14,7 +14,7 @@
 - name: ensure jenkins is running before requesting safe restart
   systemd:
     name: jenkins
-    state: started
+    state: "{{ jenkins_service_state | default('started') }}"
 
 - name: generate jenkins crumb
   import_tasks: api_generate_crumb.yml

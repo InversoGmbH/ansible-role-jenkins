@@ -22,7 +22,6 @@ jenkins_group                        : 'jenkins'
 jenkins_destination                  : '/opt'
 jenkins_dir                          : '{{ jenkins_destination }}/jenkins'
 jenkins_war_file                     : 'jenkins.war'
-
 jenkins_home                         : '/home/{{ jenkins_user }}/.jenkins'
 
 jenkins_local_http_port              : 8080
@@ -89,6 +88,7 @@ jenkins_cli_cmd                      : 'java -jar {{ jenkins_dir }}/jenkins-cli.
 jenkins_cli_remote_enabled           : 'false'
 
 jenkins_service_state                : 'started'
+jenkins_restarted_state              : 'restarted'
 jenkins_service_enabled              : 'yes'
 jenkins_service_env:
   PATH+EXTRA: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin'

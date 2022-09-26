@@ -21,14 +21,15 @@
     dest: '{{ item.dest }}'
     owner: '{{ jenkins_user }}'
     group: '{{ jenkins_group }}'
-  with_items:
+  loop:
     - src: 'groovy/update_admin_password.groovy.j2'
       dest: '{{ jenkins_home }}/init.groovy.d/10_update_admin_password.groovy'
+
     - src: 'groovy/configure_csrf.groovy.j2'
       dest: '{{ jenkins_home }}/init.groovy.d/20_configure_csrf.groovy'
   register: jenkins_users_config
 
 - name: restart jenkins
-  service:
+  systemd:
     name: jenkins
-    state: 'restarted'
+    state: '{{ jenkins_restarted_state | default(restarted) }}'
