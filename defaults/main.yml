@@ -68,6 +68,7 @@ jenkins_ad_group_developers          : None
 jenkins_ad_group_users               : None
 jenkins_ad_authorizationstrategy     : 'matrix' # matrix | project
 jenkins_ad_allow_anonymous           : 'yes'    # yes | no
+jenkins_users_can_build              : 'no'
 jenkins_ad_cache_enabled             : true
 jenkins_ad_cache_size                : 256
 jenkins_ad_cache_ttl                 : 600

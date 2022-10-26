@@ -75,6 +75,11 @@ strategy.add(hudson.model.Item.DELETE, PermissionEntry.group('{{ jenkins_ad_grou
 {# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('{{ jenkins_ad_group_users }}')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
 
+{% if jenkins_users_can_build == 'yes' %}
+strategy.add(hudson.model.Item.BUILD, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
+strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_group_users }}'))
+{% endif %}
+
 {# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('authenticated')) // inherited from READ permission #}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('authenticated'))
 
