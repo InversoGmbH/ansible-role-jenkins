@@ -82,7 +82,7 @@ jenkins_java_opts                    : '{{ jenkins_java_opts_defaults }}'
 jenkins_systemproperties             : ''
 
 jenkins_java_install_jce             : 'no'   # yes | no
-jenkins_java_lib                     : '/usr/bin/java'
+jenkins_java_bin                     : '/usr/bin/java'
 
 jenkins_api_url                      : 'http://localhost:{{ jenkins_local_http_port }}{{ jenkins_webappcontextpath }}'
 jenkins_cli_cmd                      : 'java -jar {{ jenkins_dir }}/jenkins-cli.jar -s {{ jenkins_api_url }}'
