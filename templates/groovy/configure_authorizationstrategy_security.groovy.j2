@@ -84,7 +84,7 @@ strategy.add(hudson.model.Item.CANCEL, PermissionEntry.group('{{ jenkins_ad_grou
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('authenticated'))
 
 {# strategy.add(hudson.model.Item.DISCOVER, PermissionEntry.group('anonymous')) // inherited from READ permission #}
-{% if jenkins_ad_allow_anonymous  == 'yes' %}
+{% if jenkins_ad_allow_anonymous_item  == 'yes' %}
 strategy.add(hudson.model.Item.READ, PermissionEntry.group('anonymous'))
 {% endif %}
 
