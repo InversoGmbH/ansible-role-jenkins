@@ -10,7 +10,6 @@
       - jenkins_dir                      | mandatory
       - jenkins_logdir                   | mandatory
       - jenkins_destination              | mandatory
-      - jenkins_home                     | mandatory
       - jenkins_plugins                  is iterable
       - jenkins_download_baseurl         | mandatory
       - jenkins_admin_username           | mandatory
@@ -27,6 +26,20 @@
       - jenkins_service_enabled          in ['yes','no']
       - jenkins_cli_remote_enabled       in ['false','true'] # these are intentionally strings, and not booleans
   tags: ['varcheck']
+
+- name: show deploy config
+  debug:
+    var: _deploy_config
+  vars:
+    _deploy_config:
+      jenkins_version: '{{ jenkins_version }}'
+      jenkins_user: '{{ jenkins_user }}'
+      jenkins_group: '{{ jenkins_group }}'
+      jenkins_home: '{{ jenkins_home }}'
+      jenkins_dir: '{{ jenkins_dir }}'
+      jenkins_logdir: '{{ jenkins_logdir }}'
+      jenkins_destination: '{{ jenkins_destination }}'
+      jenkins_service_enabled: '{{ jenkins_service_enabled }}'
 
 - name: ensure jenkins group exists
   group: 
