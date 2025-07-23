@@ -4,10 +4,14 @@
 Description=Jenkins Server
 After=network.target
 Requires=network.target
+StartLimitIntervalSec=500
+StartLimitBurst=5
 
 [Service]
 Type=simple
 User={{ jenkins_user }}
+Restart=on-failure
+RestartSec=5s
 Environment="JENKINS_HOME={{ jenkins_home }}"
 {% for key, value in jenkins_service_env.items() %}
 Environment="{{ key }}={{ value }}"
